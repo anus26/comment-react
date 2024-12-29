@@ -12,12 +12,27 @@ const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
-      { path: '/', element: <Home /> },
-      { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
-    ],
-  },
+      {
+        path: '/',
+        element: <Home />
+      },
+      {
+        path: 'login',
+        element: <Login />
+      },
+      {
+        path: 'register',
+        element: <Register />
+      },
+      {
+        path: '*',
+        element: <Notfound /> // This catches all undefined routes
+      }
+    ]
+  }
 ]);
 
 
-createRoot(document.getElementById('root')).render(<RouterProvider router={router} />);
+createRoot(document.getElementById("root")).render(
+  <RouterProvider router={router} />
+);

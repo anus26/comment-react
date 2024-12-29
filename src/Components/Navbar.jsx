@@ -1,9 +1,14 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+    const navigate=useNavigate()
+    const location =useLocation
+
+    const pages=['login','register']
   return (
     <>
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-base-200">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
@@ -23,14 +28,25 @@ const Navbar = () => {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li><a>Homepage</a></li>
-        <li><a>Portfolio</a></li>
-        <li><a>About</a></li>
+            {pages.map((page)=>(
+
+        <li key={page} ><a className={`btn btn-ghost text-lg capitalize ${
+                  location.pathname === `/${page}` ? 'text-blue-600 font-bold' : ''
+                 }`}
+   onClick={() => navigate(`/${page}`)}>{page}</a></li>
+            ))}
+  
       </ul>
     </div>
   </div>
   <div className="navbar-center">
-    <a className="btn btn-ghost text-xl">daisyUI</a>
+  <a
+            className={`btn btn-ghost text-xl ${
+              location.pathname === '/' ? 'text-blue-600 font-bold' : ''
+            }`}
+            onClick={() => navigate('/')}>
+            HOME
+          </a>
   </div>
   <div className="navbar-end">
     <button className="btn btn-ghost btn-circle">
@@ -72,3 +88,17 @@ const Navbar = () => {
 }
 
 export default Navbar
+
+
+
+// {pages.map((page) => (
+//     <button
+//     key={page}
+//     className={`btn btn-ghost text-lg capitalize ${
+//       location.pathname === `/${page}` ? 'text-blue-600 font-bold' : ''
+//     }`}
+//     onClick={() => navigate(`/${page}`)}
+//   >
+//      {page}
+//    </button>
+//  ))}
