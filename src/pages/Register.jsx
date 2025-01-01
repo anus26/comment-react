@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const email = useRef();
@@ -8,6 +9,7 @@ const Register = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
+  const navigate=useNavigate()
 
   const Submit = async (event) => {
     event.preventDefault();
@@ -23,7 +25,7 @@ const Register = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch("http://localhost:3000/api/v1/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -38,7 +40,9 @@ const Register = () => {
 
       const data = await response.json();
       setSuccess('Registration successful!');
+      navigate('/login')
       console.log('Register successful:', data);
+     
     } catch (err) {
       setError(err.message);
       console.log('Network error:', err.message);
@@ -69,8 +73,7 @@ const Register = () => {
               {loading ? 'Submitting...' : 'Register'}
             </button>
           </form>
-          {error && <p className="text-red-500 mt-4">{error}</p>}
-          {success && <p className="text-green-500 mt-4">{success}</p>}
+   
         </div>
       </div>
     </>

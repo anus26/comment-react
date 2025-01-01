@@ -1,11 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
     const navigate=useNavigate()
     const location =useLocation
+    const[showInput,setShowInput]=useState()
+    const [searchQuery,setSearchQuery]=useState('')
 
     const pages=['login','register']
+   const handlesearch=()=>{
+    const matchPage=pages.find((page)=>
+      page.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    if (matchPage) {
+      navigate(`/${matchPage}`)
+      
+    }else{
+      <div role="alert" className="alert alert-info">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    className="h-6 w-6 shrink-0 stroke-current">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+  </svg>
+  <span>New software update available.</span>
+</div>
+    }
+   }
+
   return (
     <>
     <div className="navbar bg-base-200">
@@ -49,7 +76,19 @@ const Navbar = () => {
           </a>
   </div>
   <div className="navbar-end">
-    <button className="btn btn-ghost btn-circle">
+      {showInput && (
+        <div className='flex items-center'>
+        <input className='input input-bordered' type="text" value={searchQuery} placeholder='search' onChange={(e)=>setSearchQuery(e.target.value)}  />
+        <button
+        className="btn btn-primary ml-2"
+        onClick={handlesearch}
+        >
+        Go
+      </button>
+      </div>
+      )}
+
+    <button className="btn btn-ghost btn-circle " onClick={()=>setShowInput(!showInput)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="h-5 w-5"
@@ -60,10 +99,12 @@ const Navbar = () => {
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"  />
       </svg>
     </button>
-    <button className="btn btn-ghost btn-circle">
+
+    <button className="btn btn-ghost btn-circle " >
       <div className="indicator">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -90,15 +131,3 @@ const Navbar = () => {
 export default Navbar
 
 
-
-// {pages.map((page) => (
-//     <button
-//     key={page}
-//     className={`btn btn-ghost text-lg capitalize ${
-//       location.pathname === `/${page}` ? 'text-blue-600 font-bold' : ''
-//     }`}
-//     onClick={() => navigate(`/${page}`)}
-//   >
-//      {page}
-//    </button>
-//  ))}
