@@ -12,6 +12,7 @@ const Register = () => {
   const navigate=useNavigate()
 
   const Submit = async (event) => {
+    
     event.preventDefault();
 
     const formData = {
@@ -25,7 +26,7 @@ const Register = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/register", {
+      const response = await fetch("http://localhost:4000/api/v1/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

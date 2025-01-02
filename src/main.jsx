@@ -6,6 +6,7 @@ import Layout from './Components/Layout.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Notfound from './pages/Notfound.jsx';
+import Post from './pages/post.jsx';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />
+      },
+      {
+        path: 'post',
+        element: <Post/>
       },
       {
         path: '*',
