@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Post = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,25 @@ const Post = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [postData,setPostData]=useState(null)
+  const [postData, setPostData] = useState([]);
+
+  // Fetch all posts on component mount
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/v1/posts'); // Adjust endpoint as needed
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await response.json();
+        setPostData(data);
+      } catch (err) {
+        console.error('Error fetching posts:', err.message);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -32,7 +50,6 @@ const Post = () => {
     form.append('content', formData.content);
     form.append('image', formData.file);
 
-
     try {
       const response = await fetch('http://localhost:4000/api/v1/post', {
         method: 'POST',
@@ -44,10 +61,9 @@ const Post = () => {
         throw new Error(errData.message || 'Failed to create post');
       }
 
-      const data = await response.json();
+      const newPost = await response.json();
+      setPostData((prev) => [newPost, ...prev]); // Add new post to the top of the list
       setSuccess('Post created successfully!');
-      setPostData(data)
-      console.log('Post successful:', data);
       setFormData({ title: '', content: '', file: null }); // Reset form
     } catch (err) {
       setError(err.message);
@@ -100,27 +116,25 @@ const Post = () => {
       {success && <p className="text-green-500 mt-4">{success}</p>}
       {error && <p className="text-red-500 mt-4">{error}</p>}
 
-    
-    {/* Display post data in a card */}
-    {postData && (
-        <div className="card bg-base-100 w-96 shadow-xl mt-8">
-          <div className="card-body">
-            <h2 className="card-title">{postData.title}</h2>
-            <p>{postData.content}</p>
+      {/* Display all posts */}
+      <div className="flex flex-wrap gap-4 justify-center mt-8">
+        {postData.map((post) => (
+          <div key={post.id} className="card bg-base-100 w-96 shadow-xl">
+            <div className="card-body">
+              <h2 className="card-title">{post.title}</h2>
+              <p>{post.content}</p>
+            </div>
+            {post.url && (
+              <figure>
+                <img src={post.url} alt={post.title} />
+              </figure>
+            )}
           </div>
-          <figure>
-            <img
-              src={postData.image} // Assuming the server response includes `imageUrl`
-              alt={postData.title}
-            />
-          </figure>
-        </div>
-      )}
- 
+        ))}
+      </div>
     </div>
-
-    
   );
 };
 
 export default Post;
+

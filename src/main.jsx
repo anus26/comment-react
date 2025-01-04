@@ -1,18 +1,19 @@
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Route, RouterProvider, Routes, createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import Layout from './Components/Layout.jsx';
 import Login from './pages/Login.jsx';
 import Register from './pages/Register.jsx';
 import Notfound from './pages/Notfound.jsx';
 import Post from './pages/post.jsx';
-
+import ProtectedRoute from './routes/ProtectdRoute.jsx';
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
     children: [
+    
       {
         path: '/',
         element: <Home />
