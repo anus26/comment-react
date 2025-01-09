@@ -7,7 +7,7 @@ const Navbar = () => {
     const[showInput,setShowInput]=useState()
     const [searchQuery,setSearchQuery]=useState('')
 
-    const pages=['login','register','post']
+    const pages=['login','register','post','logout']
    const handlesearch=()=>{
     const matchPage=pages.find((page)=>
       page.toLowerCase().includes(searchQuery.toLowerCase())
