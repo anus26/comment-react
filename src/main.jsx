@@ -8,7 +8,7 @@ import Register from "./pages/Register.jsx";
 import Notfound from "./pages/Notfound.jsx";
 import Post from "./pages/Post.jsx";
 import Logout from "./pages/Logout.jsx";
-import ProtectedRoute from "./Components/ProtectedRoutes.jsx";
+import ProtectedRoute from "./Components/ProtectedRoutes.jsx"; 
 
 const router = createBrowserRouter([
     {

@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const email = useRef();
   const password = useRef();
-
+  const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
@@ -27,6 +28,7 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
+        credentials: "include", // Include cookies in the request
       });
 
       if (!response.ok) {
@@ -35,8 +37,14 @@ const Login = () => {
       }
 
       const data = await response.json();
-      setSuccess('Login successful!');
-      console.log('Login successful:', data);
+          // Save tokens to cookies
+          document.cookie = `accessToken=${data.accessToken}; Path=/; Secure; HttpOnly; SameSite=Strict;`;
+          document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure; HttpOnly; SameSite=Strict;`;
+          
+          console.log('Login successful:', data);
+    setSuccess('Login successful!');
+    navigate('/post')
+    
     } catch (err) {
       setError(err.message);
       console.log('Network error:', err.message);
