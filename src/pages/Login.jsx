@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 const Login = () => {
   const email = useRef();
   const password = useRef();
-  const navigate=useNavigate()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
+  const navigate=useNavigate()
+  
   const Submit = async (event) => {
     event.preventDefault();
 
@@ -38,12 +38,13 @@ const Login = () => {
 
       const data = await response.json();
           // Save tokens to cookies
-          document.cookie = `accessToken=${data.accessToken}; Path=/; Secure; HttpOnly; SameSite=Strict;`;
+          document.cookie = `accessToken=${data.accessToken}; Path=/`;
+
           document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure; HttpOnly; SameSite=Strict;`;
           
+          setSuccess('Login successful!');
+          navigate('/post')
           console.log('Login successful:', data);
-    setSuccess('Login successful!');
-    navigate('/post')
     
     } catch (err) {
       setError(err.message);
