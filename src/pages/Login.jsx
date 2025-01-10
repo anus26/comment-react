@@ -52,13 +52,17 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
+   
+
   };
+ 
 
   return (
     <>
       <div className="flex-wrap justify-center p-10 m-14 gap-20">
         <h1>Register</h1>
         <div className="gap-20">
+          
           <form onSubmit={Submit}>
            
             <label className="input input-bordered m-4 flex items-center gap-2">

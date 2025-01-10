@@ -4,27 +4,22 @@ import { Navigate, useNavigate } from 'react-router-dom'
 const Logout = () => {
 const navigate=useNavigate()
 
-
-    const handlelogout=async(event)=>{
-        event.preventDefault()
-        const response = await fetch('http://localhost:4000/api/v1/logout', {  
-        method:POST,
-        // include cokies
-        credentials:"include",
-    })
-        if (response.ok) {
-            localStorage.removeItem('accessToken')
-            localStorage.removeItem("user")
-            navigate("/Login")
-            console.log("logout successfully");
-            
-            
-        }else{
-            console.log("error");
-            
-        }
-
+const handlelogout = async (event) => {
+    event.preventDefault();
+  
+    try {
+      await fetch('http://localhost:4000/api/v1/logout', {
+        method: 'POST',
+        credentials: 'include', // Include cookies in the request
+      });
+  
+      console.log('Cookies deleted. User logged out.');
+      navigate('/login');
+    } catch (error) {
+      console.error('Logout failed:', error);
     }
+  };
+  
   return (
  <>
  <div>
