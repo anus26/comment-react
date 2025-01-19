@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import { storeTokenInLocalStorage } from '../Components/ProtectedRoutes';
 const Login = () => {
+ 
   const email = useRef();
   const password = useRef();
   const [loading, setLoading] = useState(false);
@@ -11,16 +12,16 @@ const Login = () => {
   
   const Submit = async (event) => {
     event.preventDefault();
-
+  
     const formData = {
       email: email.current.value,
       password: password.current.value,
     };
-
+  
     setLoading(true);
     setError(null);
     setSuccess(null);
-
+  
     try {
       const response = await fetch(`http://localhost:4000/api/v1/longin`, {
         method: 'POST',
@@ -28,33 +29,34 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-        credentials: "include", // Include cookies in the request
+        credentials: 'include', // Include cookies in the request
       });
-
+  
       if (!response.ok) {
         const errData = await response.json();
-        throw new Error(errData.error || 'Registration failed');
+        throw new Error(errData.error || 'Login failed');
       }
-
+  
       const data = await response.json();
-          // Save tokens to cookies
-          document.cookie = `accessToken=${data.accessToken}; Path=/`;
-
-          document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure; HttpOnly; SameSite=Strict;`;
-          
-          setSuccess('Login successful!');
-          navigate('/post')
-          console.log('Login successful:', data);
-    
+  
+      // Save tokens to cookies and local storage
+      document.cookie = `accessToken=${data.accessToken}; Path=/; Secure; SameSite=Strict`;
+      document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure; HttpOnly; SameSite=Strict`;
+  
+      storeTokenInLocalStorage( data.accessToken);
+      // storeTokenInLocalStorage( data.refreshToken);
+  
+      // Redirect to a protected route
+      setSuccess('Login successful!');
+      navigate('/post');
     } catch (err) {
       setError(err.message);
-      console.log('Network error:', err.message);
+      console.log('Error during login:', err.message);
     } finally {
       setLoading(false);
     }
-   
-
   };
+  
  
 
   return (
