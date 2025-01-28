@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
+
 const Home = () => {
   const [postData, setPostData] = useState([]); // Initialize as an array
   const [error, setError] = useState(null);
-  const [comment,setComment]=useState()
-  const [showInput, setShowInput] = useState(false);
+  const [showInput, setShowInput] = useState(null); // Stores the ID of the post being commented on
   const [formData, setFormData] = useState({
-      title: "",
-      content: "",
-      file: null,
-    });
+    title: "",
+    content: "",
+    file: null,
+  });
+
   // Fetch all posts
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,9 +19,8 @@ const Home = () => {
         if (!response.ok) throw new Error("Failed to fetch posts");
         const result = await response.json();
 
-        console.log("Fetched Data:", result); // Debugging output
+        console.log("Fetched Data:", result);
 
-        // Access the posts inside the `data` property
         if (result.data && Array.isArray(result.data)) {
           setPostData(result.data);
         } else {
@@ -34,53 +34,81 @@ const Home = () => {
 
     fetchPosts();
   }, []);
-  
-  // comment
-    // Handle input changes
-    const handleChange = (e) => {
-      const { name, value, type, files } = e.target;
-      setFormData((prev) => ({
-        ...prev,
-        [name]: type === "file" ? files[0] : value,
-      }));
-    };
-  const handlecomment=async()=>{
-      // Retrieve access token from local storage
-      const accessToken = retrieveTokenFromLocalStorage("accessToken");
-    
-       // Check if accessToken exists
-       if (!accessToken) {
-        setError("User is not authenticated. Please log in.");
-        setLoading(false);
-        return;
-      }
-        const form = new FormData();
-        form.append("title", formData.title);
-        form.append("content", formData.content);
-        form.append("image", formData.file);
-try {
-  const response=await fetch(`http://localhost:4000/api/v1/post/:id`,
-    {
-     method:'put', 
-    
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: form,
-  },
-  )
-  
-  console.log("Comment submitted:", comment);
-  setComment(""); // Clear the input
-  setShowInput(false); // Optionally hide input after submission
-} catch (error) {
-  
-}
 
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "file" ? files[0] : value,
+    }
+  ));
+  };
 
+  // Handle comment submission
+  const handleComment = async (postId) => {
+    const accessToken = retrieveTokenFromLocalStorage("accessToken");
 
-    
-  }
+    if (!accessToken) {
+      setError("User is not authenticated. Please log in.");
+      return;
+    }
+
+    const form = new FormData();
+    form.append("title", formData.title);
+    form.append("content", formData.content);
+    form.append("image", formData.file);
+
+    try {
+      const response = await fetch(`http://localhost:4000/api/v1/post/${postId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: form,
+      });
+
+      if (!response.ok) throw new Error("Failed to submit comment");
+      const result = await response.json();
+      console.log("Comment submitted successfully:", result);
+
+      // Reset form and hide input
+      setFormData({ title: "", content: "", file: null });
+      setShowInput(null);
+    } catch (err) {
+      console.error("Error submitting comment:", err.message);
+      setError(err.message);
+    }
+  };
+  const handleDelete = async (postId) => {
+    const accessToken = retrieveTokenFromLocalStorage("accessToken");
+  
+    if (!accessToken) {
+      setError("User is not authenticated. Please log in.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:4000/api/v1/post/${postId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+  
+      if (!response.ok) throw new Error("Failed to delete post");
+      const result = await response.json();
+      console.log("Post deleted successfully:", result);
+  
+      // Remove the deleted post from the state
+      setPostData((prevPosts) => prevPosts.filter((post) => post._id !== postId));
+    } catch (err) {
+      console.error("Error deleting post:", err.message);
+      setError(err.message);
+    }
+  };
+  
+
 
   return (
     <div className="container mx-auto p-4">
@@ -102,40 +130,74 @@ try {
                 <h2 className="card-title">{post.title}</h2>
                 <p>{post.content}</p>
                 <div className="card-actions">
-                  <form onSubmit={handlecomment}>
-                  {showInput&&(
-                            <div className="flex items-center space-x-2">
-    {/* <textarea
-    className="textarea textarea-success"
-    placeholder="Comment"
-    value={comment}
-    onChange={(e) => setComment(e.target.value)}
-  /> */}
-  <input type="text" placeholder="Type here" value={formData.title} onChange={handleChange} className="input input-bordered w-full max-w-xs" />
-  <input type="text" placeholder="Type here" value={formData.content} onChange={handleChange} className="input input-bordered w-full max-w-xs" />
-  <input type="file" placeholder="Type here" onChange={handleChange} className="input input-bordered w-full max-w-xs" />
-  
-                <button
-                className="btn btn-primary ml-2"
-                onClick={handlecomment}
-                >
-                Go
-              </button>
-              </div>
-                )}
-                </form>
-                <button className="btn btn-secondary" onClick={()=>setShowInput(!showInput)}>{showInput ? "Cancel" : "Add Comment"}</button>
+                  <button
+                    className="btn btn-Netural"
+                    onClick={() =>
+                      setShowInput((prev) => (prev === post._id ? null : post._id))
+                    }
+                  >
+                    {showInput === post._id ? "Cancel" : "Add Comment"}
+                  </button>
+
+                  {/* Modal for adding a comment */}
+                  {showInput === post._id && (
+                    <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+                        <h3 className="text-lg font-bold mb-4">Add a Comment</h3>
+                        <input
+                          type="text"
+                          name="title"
+                          placeholder="Enter title"
+                          value={formData.title}
+                          onChange={handleChange}
+                          className="input input-bordered w-full mb-2"
+                        />
+                        <textarea
+                          name="content"
+                          placeholder="Enter content"
+                          value={formData.content}
+                          onChange={handleChange}
+                          className="textarea textarea-bordered w-full mb-2"
+                        />
+                        <input
+                          type="file"
+                          name="file"
+                          onChange={handleChange}
+                          className="input input-bordered w-full mb-4"
+                        />
+                        <div className="flex justify-end space-x-4">
+                          <button
+                            className="btn btn-primary"
+                            onClick={() => handleComment(post._id)}
+                          >
+                            Submit
+                          </button>
+                          <button
+                            className="btn btn-neutral"
+                            onClick={() => setShowInput(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+              <button className="btn btn-error" onClick={()=> handleDelete(post._id)}>Delete</button>
                 </div>
               </div>
             </div>
           ))}
-          
         </div>
       ) : (
         !error && <p>Loading posts or no posts available...</p>
       )}
+
     </div>
   );
 };
 
+
 export default Home;
+
+
