@@ -102,42 +102,46 @@ const Post = () => {
   };
 
   // Handle like functionality
-  // const likePost = async (postId) => {
-  //   const userId = retrieveTokenFromLocalStorage("userId");
-  //   if (!userId) {
-  //     setError("User authentication failed. Please log in.");
-  //     return;
-  //   }
+  const likePost = async (postId) => {
+    const accessToken = retrieveTokenFromLocalStorage("accessToken");
+    // console.log("Frontend - userId:", userId);
+    console.log("Frontend - postId:", postId);
+    // if (!userId) {
+    //   setError("User authentication failed. Please log in.");
+    //   return;
+    // }
+    // const accessToken = localStorage.getItem("accessToken");
 
-  //   try {
-  //     const response = await fetch("http://localhost:4000/api/v1/like", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ userId, postId }),
+    try {
+      const response = await fetch("http://localhost:4000/api/v1/like", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({  postId }),
 
-  //     });
+      });
      
 
-  //     if (!response.ok) {
-  //       const errData = await response.json();
-  //       throw new Error(errData.message || "Failed to toggle like");
-  //     }
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || "Failed to toggle like");
+      }
 
-  //     const updatedPost = await response.json();
-  //     setPostData((prev) =>
-  //       prev.map((post) =>
-  //         post._id === postId
-  //           ? { ...post, isLiked: updatedPost.isLiked, likedCount: updatedPost.likedCount }
-  //           : post
-  //       )
-  //     );
-  //   } catch (err) {
-  //     console.error("Error liking post:", err.message);
-  //     setError("Unable to toggle like.");
-  //   }
-  // };
+      const updatedPost = await response.json();
+      setPostData((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId
+            ? { ...post, isLiked: updatedPost.isLiked, likedCount: updatedPost.likeCount }
+            : post
+        )
+      );
+    } catch (err) {
+      console.error("Error liking post:", err.message);
+      setError("Unable to toggle like.");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center px-4 py-8">
@@ -189,12 +193,13 @@ const Post = () => {
               <h2 className="card-title">{post.title}</h2>
               <p>{post.content}</p>
               <button
-                onClick={() => likePost(post._id)}
-                className={`btn ${post.isLiked ? "btn-error" : "btn-outline"}`}
-              >
-                <AiOutlineLike />
-                {post.likedCount} Likes
-              </button>
+  onClick={() => likePost(post._id)}
+  className={`btn ${post.isLiked ? "btn-error" : "btn-outline"}`}
+>
+  <AiOutlineLike />
+  {post.likedCount ?? 0} Likes
+</button>
+
             </div>
             {post.imageUrl && (
               <figure>
