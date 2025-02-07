@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
+import { AiOutlineLike } from "react-icons/ai";
 
 const Home = () => {
   const [postData, setPostData] = useState([]); // Initialize as an array
@@ -107,11 +108,53 @@ const Home = () => {
       setError(err.message);
     }
   };
+    const likePost = async (postId) => {
+      const accessToken = retrieveTokenFromLocalStorage("accessToken");
+      // console.log("Frontend - userId:", userId);
+      console.log("Frontend - postId:", postId);
+      // if (!userId) {
+      //   setError("User authentication failed. Please log in.");
+      //   return;
+      // }
+      // const accessToken = localStorage.getItem("accessToken");
+  
+      try {
+        const response = await fetch("http://localhost:4000/api/v1/like", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({  postId }),
+  
+        });
+       
+  
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.message || "Failed to toggle like");
+        }
+  
+        const updatedPost = await response.json();
+        setPostData((prevPosts) =>
+          prevPosts.map((post) =>
+            post._id === postId
+              ? { ...post, isLiked: updatedPost.isLiked, likedCount: updatedPost.likeCount }
+              : post
+          )
+        );
+      } catch (err) {
+        console.error("Error liking post:", err.message);
+        setError("Unable to toggle like.");
+      }
+    };
   
 
 
   return (
+  
     <div className="container mx-auto p-4">
+      <img src="./src/assets/image-png.jpg" alt="Blog" width={1500} />
       {error && <p className="text-red-500">Error: {error}</p>}
       {postData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -126,6 +169,13 @@ const Home = () => {
                   />
                 )}
               </figure>
+                        <button
+                onClick={() => likePost(post._id)}
+                className={`btn ${post.isLiked ? "btn-error" : "btn-outline"}`}
+              >
+                <AiOutlineLike />
+                {post.likedCount ?? 0} Likes
+              </button>
               <div className="card-body items-center text-center">
                 <h2 className="card-title">{post.title}</h2>
                 <p>{post.content}</p>
