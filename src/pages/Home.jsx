@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
 import { AiOutlineLike } from "react-icons/ai";
+import { IoHandLeft } from "react-icons/io5";
 
 const Home = () => {
   const [postData, setPostData] = useState([]); // Initialize as an array
   const [error, setError] = useState(null);
+
+  const [currentpage ,setCurentPage]=useState(1)
+  const postPerPage=5
   const [showInput, setShowInput] = useState(null); // Stores the ID of the post being commented on
   const [formData, setFormData] = useState({
     title: "",
@@ -148,7 +152,14 @@ const Home = () => {
         setError("Unable to toggle like.");
       }
     };
-  
+    const totalpages=Math.ceil(postData.length / postPerPage)
+    const startIndex=(currentpage-1)*postPerPage
+    const endIndex=startIndex+postPerPage
+    const currentPosts=postData.slice(startIndex,endIndex)
+
+    const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalpages))
+    const handlePrevpage=()=>setCurentPage((prev)=>Math.max(prev-1,1))
+    
 
 
   return (
@@ -158,7 +169,7 @@ const Home = () => {
       {error && <p className="text-red-500">Error: {error}</p>}
       {postData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {postData.map((post) => (
+          {currentPosts.map((post) => (
             <div key={post._id} className="card bg-base-100 shadow-xl">
               <figure className="px-10 pt-10">
                 {post.imageUrl && (
@@ -236,9 +247,19 @@ const Home = () => {
               <button className="btn btn-error" onClick={()=> handleDelete(post._id)}>Delete</button>
                 </div>
               </div>
+              
             </div>
-          ))}
+            
+
+          ))
+          }
+          <div className="join grid grid-cols-2">
+  <button className="join-item btn btn-outline" onClick={handlePrevpage} disabled={currentpage===1 }>Previous page</button>
+
+  <button className="join-item btn btn-outline" onClick={handleNextPage} disabled={currentpage===totalpages}>Next</button>
+</div>
         </div>
+        
       ) : (
         !error && <p className="flex justify-center"><span className="loading loading-dots loading-xs"></span>
         <span className="loading loading-dots loading-sm"></span>
