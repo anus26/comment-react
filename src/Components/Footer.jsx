@@ -12,7 +12,7 @@ const pages=['post','login']
     {
         pages.map((page)=>{
             return(
-               <button onClick={()=>navigate(`/${page}`)} className='link link-hover text-lg'>
+               <button key={page} onClick={()=>navigate(`/${page}`)} className='link link-hover text-lg'>
                 {page.charAt(0).toUpperCase()+page.slice(1)}
                 </button>
             )

@@ -7,7 +7,7 @@ const Navbar = () => {
     const[showInput,setShowInput]=useState()
     const [searchQuery,setSearchQuery]=useState('')
 
-    const pages=['login','register','post','logout']
+    const pages=['login','register','post','logout','/home']
    const handlesearch=()=>{
     const matchPage=pages.find((page)=>
       page.toLowerCase().includes(searchQuery.toLowerCase())
@@ -65,6 +65,7 @@ const Navbar = () => {
   
       </ul>
     </div>
+
   </div>
   <div className="navbar-center">
   <a
@@ -72,7 +73,7 @@ const Navbar = () => {
               location.pathname === '/' ? 'text-blue-600 font-bold' : ''
             }`}
             onClick={() => navigate('/')}>
-            HOME
+            Simple Bloging App
           </a>
   </div>
   <div className="navbar-end">

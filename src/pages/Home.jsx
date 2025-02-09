@@ -14,20 +14,25 @@ const Home = () => {
     title: "",
     content: "",
     file: null,
+  
   });
 
   // Fetch all posts
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/v1/all");
+        const accessToken = retrieveTokenFromLocalStorage("accessToken");
+        const response = await fetch("http://localhost:4000/api/v1/all", {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+    
         if (!response.ok) throw new Error("Failed to fetch posts");
         const result = await response.json();
-
+    
         console.log("Fetched Data:", result);
-
+    
         if (result.data && Array.isArray(result.data)) {
-          setPostData(result.data);
+          setPostData(result.data); // ✅ Backend se `isLiked` aur `likedCount` direct set ho raha hai
         } else {
           throw new Error("Invalid response structure");
         }
@@ -36,9 +41,9 @@ const Home = () => {
         setError(err.message);
       }
     };
-
-    fetchPosts();
-  }, []);
+    
+  fetchPosts()  
+  },[]);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -63,6 +68,7 @@ const Home = () => {
     form.append("title", formData.title);
     form.append("content", formData.content);
     form.append("image", formData.file);
+   
 
     try {
       const response = await fetch(`http://localhost:4000/api/v1/post/${postId}`, {
@@ -112,46 +118,40 @@ const Home = () => {
       setError(err.message);
     }
   };
-    const likePost = async (postId) => {
-      const accessToken = retrieveTokenFromLocalStorage("accessToken");
-      // console.log("Frontend - userId:", userId);
-      console.log("Frontend - postId:", postId);
-      // if (!userId) {
-      //   setError("User authentication failed. Please log in.");
-      //   return;
-      // }
-      // const accessToken = localStorage.getItem("accessToken");
   
-      try {
-        const response = await fetch("http://localhost:4000/api/v1/like", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: JSON.stringify({  postId }),
+
+  const likePost = async (postId) => {
+    const accessToken = retrieveTokenFromLocalStorage("accessToken");
+    try {
+      const response = await fetch("http://localhost:4000/api/v1/like", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ postId }),
+      });
   
-        });
-       
-  
-        if (!response.ok) {
-          const errData = await response.json();
-          throw new Error(errData.message || "Failed to toggle like");
-        }
-  
-        const updatedPost = await response.json();
-        setPostData((prevPosts) =>
-          prevPosts.map((post) =>
-            post._id === postId
-              ? { ...post, isLiked: updatedPost.isLiked, likedCount: updatedPost.likeCount }
-              : post
-          )
-        );
-      } catch (err) {
-        console.error("Error liking post:", err.message);
-        setError("Unable to toggle like.");
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || "Failed to toggle like");
       }
-    };
+  
+      const updatedPost = await response.json();
+      setPostData((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === postId
+            ? { ...post, isLiked: updatedPost.isLiked, likedCount: updatedPost.likeCount }
+            : post
+        )
+      );
+    } catch (err) {
+      console.error("Error liking post:", err.message);
+      setError("Unable to toggle like.");
+    }
+  };
+  
+
     const totalpages=Math.ceil(postData.length / postPerPage)
     const startIndex=(currentpage-1)*postPerPage
     const endIndex=startIndex+postPerPage
@@ -180,12 +180,13 @@ const Home = () => {
                   />
                 )}
               </figure>
-                        <button
+                        <button 
                 onClick={() => likePost(post._id)}
                 className={`btn ${post.isLiked ? "btn-error" : "btn-outline"}`}
               >
+             
                 <AiOutlineLike />
-                {post.likedCount ?? 0} Likes
+                {post.likedCount ??  0} Likes 
               </button>
               <div className="card-body items-center text-center">
                 <h2 className="card-title">{post.title}</h2>
@@ -253,6 +254,7 @@ const Home = () => {
 
           ))
           }
+          {/* pagniation */}
           <div className="join grid grid-cols-2">
   <button className="join-item btn btn-outline" onClick={handlePrevpage} disabled={currentpage===1 }>Previous page</button>
 
