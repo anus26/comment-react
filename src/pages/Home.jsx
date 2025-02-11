@@ -8,7 +8,7 @@ const Home = () => {
   const [error, setError] = useState(null);
 
   const [currentpage ,setCurentPage]=useState(1)
-  const postPerPage=5
+  const postPerPage=6
   const [showInput, setShowInput] = useState(null); // Stores the ID of the post being commented on
   const [formData, setFormData] = useState({
     title: "",
@@ -22,7 +22,7 @@ const Home = () => {
     const fetchPosts = async () => {
       try {
         const accessToken = retrieveTokenFromLocalStorage("accessToken");
-        const response = await fetch("http://localhost:4000/api/v1/all", {
+        const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/all", {
           headers: { Authorization: `Bearer ${accessToken}` },
         });
     
@@ -71,7 +71,7 @@ const Home = () => {
    
 
     try {
-      const response = await fetch(`http://localhost:4000/api/v1/post/${postId}`, {
+      const response = await fetch(`https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -100,7 +100,7 @@ const Home = () => {
     }
   
     try {
-      const response = await fetch(`http://localhost:4000/api/v1/post/${postId}`, {
+      const response = await fetch(`https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -123,7 +123,7 @@ const Home = () => {
   const likePost = async (postId) => {
     const accessToken = retrieveTokenFromLocalStorage("accessToken");
     try {
-      const response = await fetch("http://localhost:4000/api/v1/like", {
+      const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/like", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -176,10 +176,14 @@ const Home = () => {
                   <img
                     src={post.imageUrl}
                     alt={post.title}
+                    // width={300}
                     className="rounded-xl"
                   />
                 )}
               </figure>
+              <div className="card-body items-center text-center">
+                <h2 className="card-title">{post.title}</h2>
+                <p>{post.content}</p>
                         <button 
                 onClick={() => likePost(post._id)}
                 className={`btn ${post.isLiked ? "btn-error" : "btn-outline"}`}
@@ -188,9 +192,6 @@ const Home = () => {
                 <AiOutlineLike />
                 {post.likedCount ??  0} Likes 
               </button>
-              <div className="card-body items-center text-center">
-                <h2 className="card-title">{post.title}</h2>
-                <p>{post.content}</p>
                 <div className="card-actions">
                   <button
                     className="btn btn-Netural"
@@ -255,7 +256,7 @@ const Home = () => {
           ))
           }
           {/* pagniation */}
-          <div className="join grid grid-cols-2">
+          <div className="join  grid grid-cols-2 " >
   <button className="join-item btn btn-outline" onClick={handlePrevpage} disabled={currentpage===1 }>Previous page</button>
 
   <button className="join-item btn btn-outline" onClick={handleNextPage} disabled={currentpage===totalpages}>Next</button>

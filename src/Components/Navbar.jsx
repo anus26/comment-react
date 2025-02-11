@@ -1,134 +1,118 @@
-import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Search, Bell } from "lucide-react"; 
 const Navbar = () => {
-    const navigate=useNavigate()
-    const location =useLocation
-    const[showInput,setShowInput]=useState()
-    const [searchQuery,setSearchQuery]=useState('')
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [showInput, setShowInput] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isOpen, setIsOpen] = useState(false); // State for mobile menu
 
-    const pages=['login','register','post','logout','/home']
-   const handlesearch=()=>{
-    const matchPage=pages.find((page)=>
+  
+  const pages = ["login", "register", "post", "logout"];
+
+  const handleSearch = () => {
+    const matchPage = pages.find((page) =>
       page.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    );
     if (matchPage) {
-      navigate(`/${matchPage}`)
-      
-    }else{
-      <div role="alert" className="alert alert-info">
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    className="h-6 w-6 shrink-0 stroke-current">
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-  </svg>
-  <span>New software update available.</span>
-</div>
+      navigate(`/${matchPage}`);
+    } else {
+      alert("No matching page found!"); 
     }
-   }
+  };
 
   return (
     <>
-    <div className="navbar bg-base-200">
-  <div className="navbar-start">
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M4 6h16M4 12h16M4 18h7" />
-        </svg>
-      </div>
-      <ul
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-            {pages.map((page)=>(
-
-        <li key={page} ><a className={`btn btn-ghost text-lg capitalize ${
-                  location.pathname === `/${page}` ? 'text-blue-600 font-bold' : ''
-                 }`}
-   onClick={() => navigate(`/${page}`)}>{page}</a></li>
-            ))}
-  
-      </ul>
-    </div>
-
-  </div>
-  <div className="navbar-center">
-  <a
-            className={`btn btn-ghost text-xl ${
-              location.pathname === '/' ? 'text-blue-600 font-bold' : ''
-            }`}
-            onClick={() => navigate('/')}>
-            Simple Bloging App
-          </a>
-  </div>
-  <div className="navbar-end">
-      {showInput && (
-        <div className='flex items-center'>
-        <input className='input input-bordered' type="text" value={searchQuery} placeholder='search' onChange={(e)=>setSearchQuery(e.target.value)}  />
-        <button
-        className="btn btn-primary ml-2"
-        onClick={handlesearch}
-        >
-        Go
-      </button>
-      </div>
-      )}
-
-    <button className="btn btn-ghost btn-circle " onClick={()=>setShowInput(!showInput)}>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor">
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
+      <nav className="bg-base-200 shadow-md">
+        <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
           
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"  />
-      </svg>
-    </button>
+          <button className="md:hidden text-gray-700" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
 
-    <button className="btn btn-ghost btn-circle " >
-      <div className="indicator">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor">
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-        </svg>
-        <span className="badge badge-xs badge-primary indicator-item"></span>
-      </div>
-    </button>
-  </div>
-</div>
-    
+          <a
+            className={`text-xl font-bold cursor-pointer ${
+              location.pathname === "/" ? "text-blue-600" : "text-gray-900"
+            }`}
+            onClick={() => navigate("/")}
+          >
+            Simple Blogging App
+          </a>
+
+       
+          <div className="flex items-center space-x-4">
+         
+            {showInput && (
+              <div className="flex items-center border rounded-lg px-2">
+                <input
+                  type="text"
+                  className="input input-bordered border-none outline-none w-40"
+                  placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button className="btn btn-primary ml-2" onClick={handleSearch}>
+                  Go
+                </button>
+              </div>
+            )}
+
+          
+            <button className="text-gray-700" onClick={() => setShowInput(!showInput)}>
+              <Search size={22} />
+            </button>
+           
+
+            <button className="text-gray-700 relative">
+              <Bell size={22} />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1 rounded-full">
+                2
+              </span>
+            </button>
+          </div>
+        </div>
+        
+
+        
+        {isOpen && (
+          <div className="md:hidden bg-base-100 p-4 space-y-3">
+            {pages.map((page) => (
+              <a
+                key={page}
+                className={`block text-lg capitalize ${
+                  location.pathname === `/${page}` ? "text-blue-600 font-bold" : "text-gray-900"
+                }`}
+                onClick={() => {
+                  navigate(`/${page}`);
+                  setIsOpen(false); 
+                }}
+              >
+                {page}
+              </a>
+            ))}
+          </div>
+        )}
+        
+
+      
+        <div className="hidden md:flex justify-center space-x-6 text-gray-900 p-3">
+          {pages.map((page) => (
+            <a
+              key={page}
+              className={`cursor-pointer text-lg capitalize ${
+                location.pathname === `/${page}` ? "text-blue-600 font-bold" : "text-gray-900"
+              }`}
+              onClick={() => navigate(`/${page}`)}
+            >
+              {page}
+            </a>
+          ))}
+        </div>
+        
+      </nav>
     </>
-  )
-}
+  );
+};
 
-export default Navbar
-
-
+export default Navbar;

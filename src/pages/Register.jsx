@@ -26,7 +26,7 @@ const Register = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch("http://localhost:4000/api/v1/register", {
+      const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -74,6 +74,7 @@ const Register = () => {
               {loading ? 'Submitting...' : 'Register'}
             </button>
           </form>
+          <a className="link" href='login'>Already login </a>
    
         </div>
       </div>

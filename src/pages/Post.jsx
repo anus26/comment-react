@@ -70,7 +70,7 @@ const Post = () => {
     form.append("image", formData.file);
 
     try {
-      const response = await fetch("http://localhost:4000/api/v1/post", {
+      const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/post", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -113,7 +113,7 @@ const Post = () => {
     // const accessToken = localStorage.getItem("accessToken");
 
     try {
-      const response = await fetch("http://localhost:4000/api/v1/like", {
+      const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/like", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

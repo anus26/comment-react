@@ -8,7 +8,7 @@ const handlelogout = async (event) => {
     event.preventDefault();
   
     try {
-      await fetch('http://localhost:4000/api/v1/logout', {
+      await fetch('https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/logout', {
         method: 'POST',
         credentials: 'include', // Include cookies in the request
       });

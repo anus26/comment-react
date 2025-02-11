@@ -23,7 +23,7 @@ const Login = () => {
     setSuccess(null);
   
     try {
-      const response = await fetch(`http://localhost:4000/api/v1/longin`, {
+      const response = await fetch(`https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/longin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ const Login = () => {
   return (
     <>
       <div className="flex-wrap justify-center p-10 m-14 gap-20">
-        <h1>Register</h1>
+        <h1>Login</h1>
         <div className="gap-20">
           
           <form onSubmit={Submit}>
@@ -80,6 +80,7 @@ const Login = () => {
               {loading ? 'Submitting...' : 'Register'}
             </button>
           </form>
+          <a className="link" href='Register'>NOt a register</a>
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {success && <p className="text-green-500 mt-4">{success}</p>}
         </div>
