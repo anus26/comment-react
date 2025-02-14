@@ -26,7 +26,7 @@ const Register = () => {
     setSuccess(null);
 
     try {
-      const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/register", {
+      const response = await fetch("https://comment-eta-bay.vercel.app/api/v1/register", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

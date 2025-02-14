@@ -26,9 +26,10 @@ const Home = () => {
           "https://comment-eta-bay.vercel.app/api/v1/all ",
           {
             method: "GET",
+              credentials: "include",
             headers: {
        
-              "Content-Type": "application/json",
+              // "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
               
             },
@@ -78,7 +79,7 @@ const Home = () => {
    
 
     try {
-      const response = await fetch(`https://comment-f7qnv0jep-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
+      const response = await fetch(`https://comment-eta-bay.vercel.app/api/v1/post/${postId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -107,7 +108,7 @@ const Home = () => {
     }
   
     try {
-      const response = await fetch(`https://comment-f7qnv0jep-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
+      const response = await fetch(`https://comment-eta-bay.vercel.app/api/v1/post/${postId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -130,7 +131,7 @@ const Home = () => {
   const likePost = async (postId) => {
     const accessToken = retrieveTokenFromLocalStorage("accessToken");
     try {
-      const response = await fetch("https://comment-f7qnv0jep-anusrazas-projects.vercel.app/api/v1/like", {
+      const response = await fetch("https://comment-eta-bay.vercel.app/api/v1/like", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
