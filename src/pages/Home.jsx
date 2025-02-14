@@ -22,28 +22,35 @@ const Home = () => {
     const fetchPosts = async () => {
       try {
         const accessToken = retrieveTokenFromLocalStorage("accessToken");
-        const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/all", {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        });
-    
-        if (!response.ok) throw new Error("Failed to fetch posts");
-        const result = await response.json();
-    
-        console.log("Fetched Data:", result);
-    
-        if (result.data && Array.isArray(result.data)) {
-          setPostData(result.data); // ✅ Backend se `isLiked` aur `likedCount` direct set ho raha hai
-        } else {
-          throw new Error("Invalid response structure");
+        const response = await fetch(
+          "https://comment-eta-bay.vercel.app/api/v1/all ",
+          {
+            method: "GET",
+            headers: {
+       
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+              
+            },
+            mode: 'cors',
+            credentials: "include", // Ensures cookies are sent
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      } catch (err) {
-        console.error("Error fetching posts:", err.message);
-        setError(err.message);
+  
+        const data = await response.json();
+        console.log("Posts:", data);
+      } catch (error) {
+        console.error("Error fetching posts:", error.message);
       }
     };
-    
-  fetchPosts()  
-  },[]);
+  
+    fetchPosts();
+  }, []);
+  
 
   // Handle input changes
   const handleChange = (e) => {
@@ -71,7 +78,7 @@ const Home = () => {
    
 
     try {
-      const response = await fetch(`https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
+      const response = await fetch(`https://comment-f7qnv0jep-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -100,7 +107,7 @@ const Home = () => {
     }
   
     try {
-      const response = await fetch(`https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
+      const response = await fetch(`https://comment-f7qnv0jep-anusrazas-projects.vercel.app/api/v1/post/${postId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -123,7 +130,7 @@ const Home = () => {
   const likePost = async (postId) => {
     const accessToken = retrieveTokenFromLocalStorage("accessToken");
     try {
-      const response = await fetch("https://comment-dunjfnuwl-anusrazas-projects.vercel.app/api/v1/like", {
+      const response = await fetch("https://comment-f7qnv0jep-anusrazas-projects.vercel.app/api/v1/like", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
