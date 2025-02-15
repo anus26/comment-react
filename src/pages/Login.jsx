@@ -29,7 +29,7 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),
-        credentials: 'include', // Include cookies in the request
+        // credentials: 'include', // Include cookies in the request
       });
   
       if (!response.ok) {
