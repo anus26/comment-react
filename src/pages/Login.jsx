@@ -23,7 +23,7 @@ const Login = () => {
     setSuccess(null);
   
     try {
-      const response = await fetch("https://comment-eta-bay.vercel.app/api/v1/longin", {
+      const response = await fetch(`https://comment-eta-bay.vercel.app/api/v1/longin`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
