@@ -78,7 +78,6 @@ const Login = () => {
               {loading ? 'Submitting...' : 'Register'}
             </button>
           </form>
-          <a className="link" href='Register'>NOt a register</a>
           {error && <p className="text-red-500 mt-4">{error}</p>}
           {success && <p className="text-green-500 mt-4">{success}</p>}
         </div>

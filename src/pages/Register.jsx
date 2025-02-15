@@ -74,7 +74,6 @@ const Register = () => {
               {loading ? 'Submitting...' : 'Register'}
             </button>
           </form>
-          <a className="link" href='login'>Already login </a>
    
         </div>
       </div>
