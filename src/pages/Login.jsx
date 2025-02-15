@@ -44,9 +44,7 @@ const Login = () => {
       document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure; HttpOnly; SameSite=Strict`;
   
       storeTokenInLocalStorage( data.accessToken);
-      // storeTokenInLocalStorage( data.refreshToken);
-  
-      // Redirect to a protected route
+      
       setSuccess('Login successful!');
       navigate('/post');
     } catch (err) {
