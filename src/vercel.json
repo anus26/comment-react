@@ -1,36 +1,5 @@
 {
-    "rewrites": [
-      {
-        "source": "/api/:path*",
-        "destination": "https://your-backend.vercel.app/api/:path*"
-      }
-    ],
-    "redirects": [
-      {
-        "source": "/login",
-        "destination": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "source": "/register",
-        "destination": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "source": "/post",
-        "destination": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "source": "/logout",
-        "destination": "/index.html",
-        "statusCode": 200
-      },
-      {
-        "source": "/:path*",
-        "destination": "/index.html",
-        "statusCode": 200
-      }
+    "rewrites":[
+      {"source":"/(.*)","destination": "/"}
     ]
   }
-  
