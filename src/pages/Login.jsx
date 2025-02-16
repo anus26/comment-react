@@ -24,7 +24,7 @@ const Login = () => {
   
     try {
       const response = await fetch(`https://comment-eta-bay.vercel.app/api/v1/login`, {
-        method: 'POST',
+         method: "POST",
         credentials:'include',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const Login = () => {
   
       // Save tokens to cookies and local storage
       document.cookie = `accessToken=${data.accessToken}; Path=/; Secure; SameSite=Strict`;
-      document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure; HttpOnly; SameSite=Strict`;
+      document.cookie = `refreshToken=${data.refreshToken}; Path=/; Secure;  SameSite=None`;
   
       storeTokenInLocalStorage( data.accessToken);
       
