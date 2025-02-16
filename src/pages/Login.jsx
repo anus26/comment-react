@@ -25,14 +25,14 @@ const Login = () => {
     try {
       const response = await fetch(`https://comment-eta-bay.vercel.app/api/v1/login`, {
          method: "POST",
-        credentials:'include',
+        // credentials:'include',
         headers: {
           'Content-Type': 'application/json',
         },
-        mode: 'cors',
-  credentials: 'include',
+  //       mode: 'cors',
+  // credentials: 'include',
         body: JSON.stringify(formData),
-        // credentials: 'include', // Include cookies in the request
+        credentials: 'include', // Include cookies in the request
       });
   
       if (!response.ok) {
