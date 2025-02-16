@@ -25,7 +25,7 @@ const Login = () => {
     try {
       const response = await fetch(`https://comment-eta-bay.vercel.app/api/v1/login`, {
         method: 'POST',
-        credentials:'include'
+        credentials:'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -69,7 +69,7 @@ const Login = () => {
           <form onSubmit={Submit}>
            
             <label className="input input-bordered m-4 flex items-center gap-2">
-              <input type="email" className="grow" placeholder="Email" ref={email} />
+              <input type="email" className="grow" placeholder="Email" ref={email} autoComplete='current-email' />
             </label>
             <label className="input input-bordered m-4 flex items-center gap-2">
               <input type="password" className="grow" placeholder="Password" ref={password}   autoComplete="current-password"  />
