@@ -32,6 +32,7 @@ const Login = () => {
   //       mode: 'cors',
   // credentials: 'include',
         body: JSON.stringify(formData),
+        mode:"cors",
         credentials: 'include', // Include cookies in the request
       });
   
