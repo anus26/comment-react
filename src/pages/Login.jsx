@@ -28,6 +28,8 @@ const Login = () => {
         headers: {
           'Content-Type': 'application/json',
         },
+        mode: 'cors',
+  credentials: 'include',
         body: JSON.stringify(formData),
         // credentials: 'include', // Include cookies in the request
       });
