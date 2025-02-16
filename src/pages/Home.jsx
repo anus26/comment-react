@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
 import { AiOutlineLike } from "react-icons/ai";
-import { IoHandLeft } from "react-icons/io5";
 
 const Home = () => {
   const [postData, setPostData] = useState([]); // Initialize as an array

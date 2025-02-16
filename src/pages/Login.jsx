@@ -69,7 +69,7 @@ const Login = () => {
               <input type="email" className="grow" placeholder="Email" ref={email} />
             </label>
             <label className="input input-bordered m-4 flex items-center gap-2">
-              <input type="password" className="grow" placeholder="Password" ref={password} />
+              <input type="password" className="grow" placeholder="Password" ref={password}   autoComplete="current-password"  />
             </label>
             <button
               type="submit"
