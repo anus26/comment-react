@@ -74,7 +74,7 @@ const Post = () => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+     
         },
         body: form,
       });
