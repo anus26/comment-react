@@ -88,4 +88,3 @@ const Login = () => {
 };
 
 export default Login;
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFudXNyYXphMjY4QGdtYWlsLmNvbSIsImlhdCI6MTczOTc1OTEzNCwiZXhwIjoxNzM5NzgwNzM0fQ.bqLLMwas51UzKuRjnKyz7mdMsJDqIh77K9LnVAFxhJE
