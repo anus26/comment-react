@@ -25,7 +25,7 @@ const Home = () => {
           "https://comment-eta-bay.vercel.app/api/v1/all ",
           {
             method: "GET",
-              credentials: "include",
+            
             headers: {
        
               // "Content-Type": "application/json",
