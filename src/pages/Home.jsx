@@ -32,7 +32,7 @@ const Home = () => {
               Authorization: `Bearer ${accessToken}`,
               
             },
-            mode: 'cors',
+        
             credentials: "include", // Ensures cookies are sent
           }
         );
