@@ -183,7 +183,7 @@ const Home = () => {
       {error && <p className="text-red-500">Error: {error}</p>}
       {postData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {postdata.map((post) => (
+          {postData.map((post) => (
             <div key={post._id} className="card bg-base-100 shadow-xl">
               <figure className="px-10 pt-10">
                 {post.imageUrl && (
