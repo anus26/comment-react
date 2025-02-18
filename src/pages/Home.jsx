@@ -76,7 +76,7 @@ const Home = () => {
     const form = new FormData();
     form.append("title", formData.title);
     form.append("content", formData.content);
-    form.append("image", formData.file);
+    if (formData.file) form.append("image", formData.file);
    
 
     try {
@@ -88,9 +88,12 @@ const Home = () => {
         body: form,
       });
 
-      if (!response.ok) throw new Error("Failed to submit comment");
-      const result = await response.json();
-      console.log("Comment submitted successfully:", result);
+      const updatedPost = await response.json();
+      console.log("Comment submitted successfully:", updatedPost);
+  
+      setPostData((prevPosts) =>
+        prevPosts.map((post) => (post._id === postId ? updatedPost : post))
+      );
 
       // Reset form and hide input
       setFormData({ title: "", content: "", file: null });
@@ -161,14 +164,13 @@ const Home = () => {
   };
   
 
-  const totalpages = Math.max(1, Math.ceil(postData.length / postPerPage));
+  const totalPages = postData.length > 0 ? Math.ceil(postData.length / postPerPage) : 0;
+  const startIndex = (currentpage - 1) * postPerPage;
+  const endIndex = startIndex + postPerPage;
+  const currentPosts = postData.slice(startIndex, endIndex);
 
-    const startIndex=(currentpage-1)*postPerPage
-    const endIndex=startIndex+postPerPage
-    const currentPosts = Array.isArray(postData) ? postData.slice(startIndex, endIndex) : [];
 
-
-    const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalpages))
+    const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalPages))
     const handlePrevpage=()=>setCurentPage((prev)=>Math.max(prev-1,1))
     
 
