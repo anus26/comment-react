@@ -44,7 +44,7 @@ const Home = () => {
         const data = await response.json();
         console.log("Posts:", data);
         console.log("Is data an array?", Array.isArray(data));
-        setPostData(data);
+        setPostData(data.Posts);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       }
@@ -151,10 +151,10 @@ const Home = () => {
   
       const updatedPost = await response.json();
       setPostData((prevPosts) =>
-        prevPosts.map((post) =>
+        prevPosts.map((Posts) =>
           post._id === postId
-            ? { ...post, isLiked: updatedPost.isLiked, likedCount: updatedPost.likeCount }
-            : post
+            ? { ...Posts, isLiked: updatedPost.isLiked, likedCount: updatedPost.likeCount }
+            : Posts
         )
       );
     } catch (err) {
@@ -182,41 +182,41 @@ const Home = () => {
       {error && <p className="text-red-500">Error: {error}</p>}
       {postData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentPosts.map((post) => (
-            <div key={post._id} className="card bg-base-100 shadow-xl">
+          {currentPosts.map((Posts) => (
+            <div key={Posts._id} className="card bg-base-100 shadow-xl">
               <figure className="px-10 pt-10">
                 {post.imageUrl && (
                   <img
-                    src={post.imageUrl}
-                    alt={post.title}
+                    src={Posts.imageUrl}
+                    alt={Posts.title}
                     // width={300}
                     className="rounded-xl"
                   />
                 )}
               </figure>
               <div className="card-body items-center text-center">
-                <h2 className="card-title">{post.title}</h2>
-                <p>{post.content}</p>
+                <h2 className="card-title">{Posts.title}</h2>
+                <p>{Posts.content}</p>
                         <button 
-                onClick={() => likePost(post._id)}
-                className={`btn ${post.isLiked ? "btn-error" : "btn-outline"}`}
+                onClick={() => likePost(Posts._id)}
+                className={`btn ${Posts.isLiked ? "btn-error" : "btn-outline"}`}
               >
              
                 <AiOutlineLike />
-                {post.likedCount ??  0} Likes 
+                {Posts.likedCount ??  0} Likes 
               </button>
                 <div className="card-actions">
                   <button
                     className="btn btn-Netural"
                     onClick={() =>
-                      setShowInput((prev) => (prev === post._id ? null : post._id))
+                      setShowInput((prev) => (prev === Posts._id ? null : Posts._id))
                     }
                   >
-                    {showInput === post._id ? "Cancel" : "Add Comment"}
+                    {showInput === Posts._id ? "Cancel" : "Add Comment"}
                   </button>
 
                   {/* Modal for adding a comment */}
-                  {showInput === post._id && (
+                  {showInput === Posts._id && (
                     <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
                       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                         <h3 className="text-lg font-bold mb-4">Add a Comment</h3>
