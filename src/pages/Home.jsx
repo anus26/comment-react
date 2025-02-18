@@ -3,7 +3,7 @@ import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
 import { AiOutlineLike } from "react-icons/ai";
 
 const Home = () => {
-  const [postData, setPostData] = useState(); // Initialize as an array
+  const [postData, setPostData] = useState([]); // Initialize as an array
   const [error, setError] = useState(null);
 
   const [currentpage ,setCurentPage]=useState(1)
