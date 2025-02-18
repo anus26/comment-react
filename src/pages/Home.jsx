@@ -3,7 +3,7 @@ import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
 import { AiOutlineLike } from "react-icons/ai";
 
 const Home = () => {
-  const [postData, setPostData] = useState([]); // Initialize as an array
+  const [postData, setPostData] = useState(); // Initialize as an array
   const [error, setError] = useState(null);
 
   const [currentpage ,setCurentPage]=useState(1)
@@ -44,7 +44,7 @@ const Home = () => {
         const data = await response.json();
         console.log("Posts:", data);
         console.log("Is data an array?", Array.isArray(data));
-        setPostData(Array.isArray(data.posts) ? data.posts : []);
+        setPostData(data);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       }
