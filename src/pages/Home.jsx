@@ -170,8 +170,8 @@ const Home = () => {
   const currentPosts = postData.slice(startIndex, endIndex);
 
 
-    const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalPages))
-    const handlePrevpage=()=>setCurentPage((prev)=>Math.max(prev-1,1))
+    // const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalPages))
+    // const handlePrevpage=()=>setCurentPage((prev)=>Math.max(prev-1,1))
     
 
 
@@ -269,11 +269,18 @@ const Home = () => {
           ))
           }
           {/* pagniation */}
-          <div className="join  grid grid-cols-2 " >
-  <button className="join-item btn btn-outline" onClick={handlePrevpage} disabled={currentpage===1 }>Previous page</button>
-
-  <button className="join-item btn btn-outline" onClick={handleNextPage} disabled={currentpage===totalpages}>Next</button>
-</div>
+        {/* Pagination - Only Show If More Than 1 Page */}
+        {totalPages > 1 && (
+          <div className="join grid grid-cols-2">
+            <button className="join-item btn btn-outline" onClick={handlePrevpage} disabled={currentpage === 1}>
+              Previous
+            </button>
+            <button className="join-item btn btn-outline" onClick={handleNextPage} disabled={currentpage === totalPages}>
+              Next
+            </button>
+          </div>
+        )}
+   
         </div>
         
       ) : (
