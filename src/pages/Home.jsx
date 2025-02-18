@@ -164,7 +164,8 @@ const Home = () => {
     const totalpages=Math.ceil(postData.length / postPerPage)
     const startIndex=(currentpage-1)*postPerPage
     const endIndex=startIndex+postPerPage
-    const currentPosts=postData.slice(startIndex,endIndex)
+    const currentPosts = Array.isArray(postData) ? postData.slice(startIndex, endIndex) : [];
+
 
     const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalpages))
     const handlePrevpage=()=>setCurentPage((prev)=>Math.max(prev-1,1))
