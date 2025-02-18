@@ -161,7 +161,8 @@ const Home = () => {
   };
   
 
-    const totalpages=Math.ceil(postData.length / postPerPage)
+  const totalpages = Math.max(1, Math.ceil(postData.length / postPerPage));
+
     const startIndex=(currentpage-1)*postPerPage
     const endIndex=startIndex+postPerPage
     const currentPosts = Array.isArray(postData) ? postData.slice(startIndex, endIndex) : [];
