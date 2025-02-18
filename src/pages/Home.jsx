@@ -6,8 +6,8 @@ const Home = () => {
   const [postData, setPostData] = useState([]); // Initialize as an array
   const [error, setError] = useState(null);
 
-  const [currentpage ,setCurentPage]=useState(1)
-  const postPerPage=6
+  // const [currentpage ,setCurentPage]=useState(1)
+  // const postPerPage=6
   const [showInput, setShowInput] = useState(null); // Stores the ID of the post being commented on
   const [formData, setFormData] = useState({
     title: "",
@@ -164,10 +164,10 @@ const Home = () => {
   };
   
 
-  const totalPages = postData.length > 0 ? Math.ceil(postData.length / postPerPage) : 0;
-  const startIndex = (currentpage - 1) * postPerPage;
-  const endIndex = startIndex + postPerPage;
-  const currentPosts = postData.slice(startIndex, endIndex);
+  // const totalPages = postData.length > 0 ? Math.ceil(postData.length / postPerPage) : 0;
+  // const startIndex = (currentpage - 1) * postPerPage;
+  // const endIndex = startIndex + postPerPage;
+  // const currentPosts = postData.slice(startIndex, endIndex);
 
 
     // const handleNextPage=()=> setCurentPage((prev)=>Math.min(prev+1,totalPages))
@@ -270,7 +270,7 @@ const Home = () => {
           }
           {/* pagniation */}
         {/* Pagination - Only Show If More Than 1 Page */}
-        {totalPages > 1 && (
+        {/* {totalPages > 1 && (
           <div className="join grid grid-cols-2">
             <button className="join-item btn btn-outline" onClick={handlePrevpage} disabled={currentpage === 1}>
               Previous
@@ -279,7 +279,7 @@ const Home = () => {
               Next
             </button>
           </div>
-        )}
+        )} */}
    
         </div>
         
