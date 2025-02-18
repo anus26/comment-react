@@ -44,7 +44,7 @@ const Home = () => {
         const data = await response.json();
         console.log("Posts:", data);
         console.log("Is data an array?", Array.isArray(data));
-        setPostData(data.posts || []);
+        setPostData(Array.isArray(data) ? data : data.posts || []);
       } catch (error) {
         console.error("Error fetching posts:", error.message);
       }
