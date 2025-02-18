@@ -43,6 +43,7 @@ const Home = () => {
   
         const data = await response.json();
         console.log("Posts:", data);
+        console.log("Is data an array?", Array.isArray(data));
         setPostData(data)
       } catch (error) {
         console.error("Error fetching posts:", error.message);
