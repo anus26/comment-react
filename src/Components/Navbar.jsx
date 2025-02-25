@@ -25,23 +25,28 @@ const Navbar = () => {
   return (
     <>
       <nav className="bg-base-200 shadow-md">
-        <div className="max-w-7xl mx-auto flex justify-between items-center p-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center p-4 ">
           
           <button className="md:hidden text-gray-700" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={28} /> : <Menu size={28} />}
+           
+           
           </button>
+<div className="">
 
           <a
-            className={`text-xl font-bold cursor-pointer ${
-              location.pathname === "/" ? "text-blue-600" : "text-gray-900"
-            }`}
+            className={`text-xl  group font-bold cursor-pointer hover:text-cyan-700 duration-500 transition-all ${
+              location.pathname === "/" ? "text-blue-600" : "text-gray-900" 
+            } ` }
             onClick={() => navigate("/")}
-          >
+            >
             Simple Blogging App
+          <div className="mx-auto bg-cyan-700   w-0  group-hover:w-full h-[1px] transition-all duration-500  "></div>
           </a>
+            </div>
 
        
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center  space-x-4">
          
             {showInput && (
               <div className="flex items-center border rounded-lg px-2">
@@ -76,11 +81,11 @@ const Navbar = () => {
 
         
         {isOpen && (
-          <div className="md:hidden bg-base-100 p-4 space-y-3">
+          <div className="md:hidden bg-base-100 p-20 space-y-3 ">
             {pages.map((page) => (
               <a
                 key={page}
-                className={`block text-lg capitalize ${
+                className={` block text-lg capitalize  ${
                   location.pathname === `/${page}` ? "text-blue-600 font-bold" : "text-gray-900"
                 }`}
                 onClick={() => {
@@ -88,6 +93,7 @@ const Navbar = () => {
                   setIsOpen(false); 
                 }}
               >
+                
                 {page}
               </a>
             ))}
@@ -96,16 +102,17 @@ const Navbar = () => {
         
 
       
-        <div className="hidden md:flex justify-center space-x-6 text-gray-900 p-3">
+        <div className="  hidden md:flex justify-center space-x-6 text-gray-900 p-3">
           {pages.map((page) => (
             <a
               key={page}
-              className={`cursor-pointer text-lg capitalize ${
+              className={` group cursor-pointer text-lg capitalize hover:text-cyan-700  transition-all duration-500  ${
                 location.pathname === `/${page}` ? "text-blue-600 font-bold" : "text-gray-900"
               }`}
               onClick={() => navigate(`/${page}`)}
             >
               {page}
+              <div className= "mx-auto bg-cyan-700  w-0 group-hover:w-full h-[1px] transition-all duration-500"></div>
             </a>
           ))}
         </div>

@@ -178,8 +178,8 @@ const Home = () => {
 
   return (
   
-    <div className="container mx-auto p-4">
-      <img src="./src/assets/image-png.jpg" alt="Blog" width={1500} />
+    <div className="container mx-auto p-4 ">
+      <img src="../../public/images/image-png.jpg" alt="Blog" width={1500} />
       {error && <p className="text-red-500">Error: {error}</p>}
       {postData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
