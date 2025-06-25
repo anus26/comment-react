@@ -9,6 +9,7 @@ import Notfound from "./pages/Notfound.jsx";
 import Post from "./pages/Post.jsx";
 import Logout from "./pages/Logout.jsx";
 import ProtectedRoute from "./Components/ProtectedRoutes.jsx"; 
+import { Toaster } from "react-hot-toast";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
             { path: "*", element: <Notfound /> }, // Catch-all route
         ],
     },
+    <div><Toaster/></div>
 ]);
 
 createRoot(document.getElementById("root")).render(

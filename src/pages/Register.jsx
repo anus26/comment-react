@@ -4,7 +4,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 const Register = () => {
   const email = useRef();
   const password = useRef();
-  // const name = useRef();
+  const name = useRef();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -16,7 +16,7 @@ const Register = () => {
     event.preventDefault();
 
     const formData = {
-      // name: name.current.value,
+      name: name.current.value,
       email: email.current.value,
       password: password.current.value,
     };
@@ -58,9 +58,9 @@ const Register = () => {
         <h1>Register</h1>
         <div className="gap-20">
           <form onSubmit={Submit}>
-            {/* <label className="input input-bordered m-4 flex gap-8">
+            <label className="input input-bordered m-4 flex gap-8">
               <input type="text" className="grow" placeholder="Name" ref={name} />
-            </label> */}
+            </label>
             <label className="input input-bordered m-4 flex items-center gap-2">
               <input type="email" className="grow" placeholder="Email" ref={email} />
             </label>

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { storeTokenInLocalStorage } from '../Components/ProtectedRoutes';
+import toast from 'react-hot-toast';
 const Login = () => {
  
   const email = useRef();
@@ -35,7 +36,7 @@ const Login = () => {
   
       if (!response.ok) {
         const errData = await response.json();
-        throw new Error(errData.error || 'Login failed');
+      toast.success('login failed!')
       }
   
       const data = await response.json();
@@ -46,7 +47,7 @@ const Login = () => {
   
       storeTokenInLocalStorage( data.accessToken);
       
-      setSuccess('Login successful!');
+toast.success('Successfully login!')
       navigate('/post');
     } catch (err) {
       setError(err.message);
