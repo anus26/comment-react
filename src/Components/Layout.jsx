@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 const Layout = () => {
   return (
     <>
-<Toaster/>
+<Toaster position='top-right'/>
       <ResponsiveAppBar />
       <Outlet />
       <Footer/>
