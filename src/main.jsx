@@ -38,9 +38,12 @@ const router = createBrowserRouter([
             { path: "*", element: <Notfound /> }, // Catch-all route
         ],
     },
-    <div><Toaster/></div>
+   
 ]);
 
 createRoot(document.getElementById("root")).render(
+    <>
     <RouterProvider router={router} />
+    <Toaster/>
+    </>
 );
