@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 const Register = () => {
@@ -36,16 +37,17 @@ const Register = () => {
 
       if (!response.ok) {
         const errData = await response.json();
-        throw new Error(errData.error || 'Registration failed');
+        toast.error(errData.error || 'Registration failed');
       }
 
       const data = await response.json();
-      setSuccess('Registration successful!');
+      toast.success('Registration successful!');
       navigate('/login')
       console.log('Register successful:', data);
      
     } catch (err) {
       setError(err.message);
+      toast.error('something error registran')
       console.log('Network error:', err.message);
     } finally {
       setLoading(false);

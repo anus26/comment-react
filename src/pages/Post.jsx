@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { retrieveTokenFromLocalStorage } from "../Components/ProtectedRoutes";
+import toast from "react-hot-toast";
 
 const Post = () => {
   const [formData, setFormData] = useState({
@@ -91,12 +92,13 @@ const Post = () => {
       console.log("post ",newPost);
       
 
-      setSuccess("Post created successfully!");
+      toast.success("Post created successfully!");
       setFormData({ title: "", content: "", file: null});
       e.target.reset();
     } catch (err) {
       console.error("Error:", err.message);
       setError(err.message);
+      toast.error('something error post')
     } finally {
       setLoading(false);
     }

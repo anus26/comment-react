@@ -1,4 +1,5 @@
 import React from 'react'
+import toast from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom'
 
 const Logout = () => {
@@ -15,6 +16,7 @@ const handlelogout = async (event) => {
   
       console.log('Cookies deleted. User logged out.');
       navigate('/login');
+      toast.success('Successfully logged out');
     } catch (error) {
       console.error('Logout failed:', error);
     }

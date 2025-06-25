@@ -51,6 +51,7 @@ toast.success('Successfully login!')
       navigate('/post');
     } catch (err) {
       setError(err.message);
+      toast.error('something went wrong login')
       console.log('Error during login:', err.message);
     } finally {
       setLoading(false);
@@ -81,7 +82,6 @@ toast.success('Successfully login!')
             </button>
           </form>
           {error && <p className="text-red-500 mt-4">{error}</p>}
-          {success && <p className="text-green-500 mt-4">{success}</p>}
         </div>
       </div>
     </>
