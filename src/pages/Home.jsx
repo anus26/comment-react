@@ -180,7 +180,8 @@ const Home = () => {
   
     <div className="container mx-auto p-4 ">
       {error && <p className="text-red-500">Error: {error}</p>}
-      <img src="/images/image-png.jpg" alt="Blog" width={1500} />
+      <img src="https://yourwebsite.com/images/image-png.jpg" alt="Blog" width={1500} />
+
       {postData.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {postData.map((post) => (
